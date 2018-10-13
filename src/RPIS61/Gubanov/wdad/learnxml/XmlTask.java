@@ -1,9 +1,6 @@
 package RPIS61.Gubanov.wdad.learnxml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,6 +23,70 @@ public class XmlTask {
         this.file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
                 "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\" + fileName +".xml");
         this.document = builder.newDocument();
+    }
+
+    public int countingTotalCostPerOrder() {
+        int totalCostPerOrder = 0, quantity, cost;
+        Element order = (Element) document.getElementsByTagName("order")
+                .item (document.getElementsByTagName("order").getLength() - 1);
+        NodeList items = order.getElementsByTagName("item");
+        for (int i = 0; i < items.getLength(); i++){
+            quantity = Integer.parseInt(items.item(i).getTextContent().trim());
+            cost = Integer.parseInt(items.item(i).getAttributes().item(0).getNodeValue());
+            totalCostPerOrder += cost * quantity;
+        }
+        return totalCostPerOrder;
+    }
+
+    public void addTotalCost(){
+        addTagElement("totalcost", "order");
+        setTagText("totalcost", String.valueOf(countingTotalCostPerOrder()));
+    }
+
+    public org.w3c.dom.Document getDocument() {
+        return document;
+    }
+
+    public Element findDay(Calendar calendar) {
+        NodeList days = document.getElementsByTagName("date");
+        Element day = null;
+        for(int i = 0; i < days.getLength(); i++) {
+            if(Integer.parseInt(days.item(i).getAttributes().item(0).getNodeValue()) == calendar.get(Calendar.DATE)
+                    && Integer.parseInt(days.item(i).getAttributes().item(1).getNodeValue()) == calendar.get(Calendar.MONTH) + 1
+                    && Integer.parseInt(days.item(i).getAttributes().item(2).getNodeValue()) == calendar.get(Calendar.YEAR)) {
+                day = (Element) days.item(i);
+                break;
+            }
+        }
+        return day;
+    }
+
+    public int earningsTotal(String officiantFirstName, String officiantSecondName, Calendar calendar) {
+        int totalCost = 0;
+        Element day = findDay(calendar);
+        NodeList officiants = day.getElementsByTagName("officiant");
+        for(int i = 0; i < officiants.getLength(); i++){
+            if(officiants.item(i).getAttributes().item(0).getNodeValue().equals(officiantFirstName)
+                    && officiants.item(i).getAttributes().item(1).getNodeValue().equals(officiantSecondName)) {
+                totalCost += Integer.parseInt(officiants.item(i).getParentNode().getLastChild().getTextContent().trim());
+            }
+        }
+        return totalCost;
+    }
+
+    public void removeDay(Calendar calendar) {
+        document.getDocumentElement().removeChild(findDay(calendar));
+    }
+
+    public void changeOfficiantName(String oldFirstName, String oldSecondName, String newFirstName, String newSecondName) {
+        NodeList officiants = document.getElementsByTagName("officiant");
+        for(int i = 0; i < officiants.getLength(); i++){
+            if(officiants.item(i).getAttributes().item(0).getNodeValue().equals(oldFirstName)
+                    && officiants.item(i).getAttributes().item(1).getNodeValue().equals(oldSecondName)) {
+                officiants.item(i).getAttributes().item(0).setNodeValue(newFirstName);
+                officiants.item(i).getAttributes().item(1).setNodeValue(newSecondName);
+            }
+        }
     }
 
     public void buildingXmlDocument() {
@@ -83,42 +144,5 @@ public class XmlTask {
         setTagAtribute("date", "year", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
         setTagAtribute("date", "month", String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1));
         setTagAtribute("date", "day", String.valueOf(Calendar.getInstance().get(Calendar.DATE)));
-    }
-
-    public int countingTotalCostPerOrder() {
-        int totalCostPerOrder = 0;
-        Element order = (Element) document.getElementsByTagName("order")
-                .item (document.getElementsByTagName("order").getLength() - 1);
-        NodeList items = order.getElementsByTagName("item");
-        int quantity = 0;
-        int cost = 0;
-        for (int i = 0; i < items.getLength(); i++){
-            quantity = Integer.parseInt(items.item(i).getTextContent().trim());
-            cost = Integer.parseInt(items.item(i).getAttributes().item(0).getNodeValue());
-            totalCostPerOrder += cost * quantity;
-        }
-        return totalCostPerOrder;
-    }
-
-    public void addTotalCost(){
-        addTagElement("totalcost", "order");
-        setTagText("totalcost", String.valueOf(countingTotalCostPerOrder()));
-    }
-
-    public org.w3c.dom.Document getDocument() {
-        return document;
-    }
-
-    public int earningsTotal(String officiantSecondName, Calendar calendar) {
-
-        return 0;
-    }
-
-    public void removeDay(Calendar calendar) {
-
-    }
-
-    public void changeOfficiantName(String oldFirstName, String oldSecondName, String newFirstName, String newSecondName) {
-
     }
 }

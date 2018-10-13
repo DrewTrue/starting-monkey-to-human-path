@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<restaurant name="McBurgerFC">
+<restaurant name="McBurgerC">
 <date day="13" month="10" year="2018"> 
 <order> 
-<officiant firstname="John" lastname="Stones"> 
+<officiant firstname="Kate" lastname="Stones"> 
 </officiant>
 <item cost="5" name="Chicken wings">
 3
@@ -12,6 +12,19 @@
 </item>
 <totalcost>
 19
+</totalcost>
+</order>
+<order> 
+<officiant firstname="Kate" lastname="Stones"> 
+</officiant>
+<item cost="5" name="Chicken wings">
+30
+</item>
+<item cost="2" name="Cola">
+12
+</item>
+<totalcost>
+174
 </totalcost>
 </order>
 </date>
