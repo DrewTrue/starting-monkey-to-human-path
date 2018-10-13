@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<restaurant> 
+<date day="" month="" year=""> 
+<order> 
+<officiant firstname="John" lastname="Stone"> 
+</officiant>
+<item cost="7" name="Chicken wings"> 
+</item>
+<item cost="2" name="Cola"> 
+</item>
+<totalcost> 
+</totalcost>
+<officiant firstname="Kate" lastname="Rock"> 
+</officiant>
+</order>
+</date>
+</restaurant>
