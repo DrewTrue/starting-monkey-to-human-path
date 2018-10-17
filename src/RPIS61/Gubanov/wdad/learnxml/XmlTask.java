@@ -1,6 +1,7 @@
 package RPIS61.Gubanov.wdad.learnxml;
 
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +24,13 @@ public class XmlTask {
         this.file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
                 "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\" + fileName +".xml");
         this.document = builder.newDocument();
+    }
+
+    public XmlTask(File file) throws ParserConfigurationException, IOException, SAXException {
+        this.factory = DocumentBuilderFactory.newInstance();
+        this.builder = factory.newDocumentBuilder();
+        this.file = file;
+        this.document = builder.parse(file);
     }
 
     public int countingTotalCostPerOrder() {
@@ -49,16 +57,14 @@ public class XmlTask {
 
     public Element findDay(Calendar calendar) {
         NodeList days = document.getElementsByTagName("date");
-        Element day = null;
         for(int i = 0; i < days.getLength(); i++) {
             if(Integer.parseInt(days.item(i).getAttributes().item(0).getNodeValue()) == calendar.get(Calendar.DATE)
                     && Integer.parseInt(days.item(i).getAttributes().item(1).getNodeValue()) == calendar.get(Calendar.MONTH) + 1
                     && Integer.parseInt(days.item(i).getAttributes().item(2).getNodeValue()) == calendar.get(Calendar.YEAR)) {
-                day = (Element) days.item(i);
-                break;
+                return (Element) days.item(i);
             }
         }
-        return day;
+        return null;
     }
 
     public int earningsTotal(String officiantFirstName, String officiantSecondName, Calendar calendar) {
@@ -68,7 +74,12 @@ public class XmlTask {
         for(int i = 0; i < officiants.getLength(); i++){
             if(officiants.item(i).getAttributes().item(0).getNodeValue().equals(officiantFirstName)
                     && officiants.item(i).getAttributes().item(1).getNodeValue().equals(officiantSecondName)) {
+//                HEEEEEEEEEEEEEEEEELP
+//                System.out.println(officiants.item(i).getParentNode().getLastChild().getPreviousSibling().getTextContent().trim());
+//                System.out.println(officiants.item(i).getParentNode().getChildNodes().item(7).getTextContent().trim());
+//                System.out.println(officiants.item(i).getParentNode().getLastChild().getTextContent().trim());
                 totalCost += Integer.parseInt(officiants.item(i).getParentNode().getLastChild().getTextContent().trim());
+//                totalCost += Integer.parseInt(officiants.item(i).getParentNode().getLastChild().getPreviousSibling().getTextContent().trim());
             }
         }
         return totalCost;
@@ -101,7 +112,7 @@ public class XmlTask {
         Element child = document.createElement(elementName);
         document.getElementsByTagName(parentName)
                 .item(document.getElementsByTagName(parentName).getLength() - 1).appendChild(child);
-        child.appendChild(document.createTextNode(" \n"));
+//        child.appendChild(document.createTextNode(" \n"));
     }
 
     public void setTagAtribute(String tagName, String attrName, String attrValue) {
@@ -113,7 +124,8 @@ public class XmlTask {
     public void setTagText(String tagName, String text){
         Element element = (Element) document.getElementsByTagName(tagName)
                 .item (document.getElementsByTagName(tagName).getLength() - 1);
-        element.setTextContent('\n' + text + '\n');
+//        element.setTextContent('\n' + text + '\n');
+        element.setTextContent(text);
     }
 
     public void transformer() throws TransformerException, FileNotFoundException {

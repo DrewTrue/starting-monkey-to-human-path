@@ -14,6 +14,9 @@ import java.util.Calendar;
 
 public class TestXmlTask {
     public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException, SAXException {
+//        File file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
+//                "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\test2.xml");
+//        XmlTask xmlTask = new XmlTask(file);
         XmlTask xmlTask = new XmlTask("test1");
         xmlTask.buildingXmlDocument();
         xmlTask.addDate();
@@ -29,15 +32,22 @@ public class TestXmlTask {
         xmlTask.addTotalCost();
         xmlTask.setTagAtribute("restaurant", "name", "McBurgerC");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2018, Calendar.OCTOBER, 13);
-        xmlTask.changeOfficiantName("John", "Stones", "Kate", "Stones");
+        calendar.set(2018, Calendar.OCTOBER, 16);
         System.out.println(xmlTask.earningsTotal("John","Stones", calendar));
-        xmlTask.removeDay(calendar);
+//        xmlTask.changeOfficiantName("John", "Stones", "Kate", "Stones");
+//        xmlTask.removeDay(calendar);
         xmlTask.transformer();
 
-//        System.out.println(xmlTask.getDocument().getElementsByTagName("officiant")
-//                .item(0).getAttributes().item(0).getNodeValue());
+//        File file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
+//                "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\test1.xml");
 //        Calendar calendar = Calendar.getInstance();
-//        System.out.println(calendar.get(Calendar.MONTH) + 1);
+//        calendar.set(2018, Calendar.OCTOBER, 16);
+//        XmlTask xmlTask = new XmlTask(file);
+////        System.out.println(xmlTask.getDocument().getDocumentElement().getElementsByTagName("date").item(0).getFirstChild());
+////        System.out.println(xmlTask.getDocument().getDocumentElement().getFirstChild().getFirstChild().getLastChild().getNodeName());
+//        System.out.println(xmlTask.earningsTotal("John","Stones", calendar));
+////        xmlTask.changeOfficiantName("John", "Stones", "Kate", "Stones");
+////        xmlTask.removeDay(calendar);
+////        xmlTask.transformer();
     }
 }
