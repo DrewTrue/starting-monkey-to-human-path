@@ -13,22 +13,20 @@ import java.io.*;
 import java.util.Calendar;
 
 public class XmlTask {
-    private DocumentBuilderFactory factory;
-    private DocumentBuilder builder;
     private Document document;
     private File file;
 
     public XmlTask(String fileName) throws ParserConfigurationException {
-        this.factory = DocumentBuilderFactory.newInstance();
-        this.builder = factory.newDocumentBuilder();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
                 "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\" + fileName +".xml");
         this.document = builder.newDocument();
     }
 
     public XmlTask(File file) throws ParserConfigurationException, IOException, SAXException {
-        this.factory = DocumentBuilderFactory.newInstance();
-        this.builder = factory.newDocumentBuilder();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = file;
         this.document = builder.parse(file);
     }
