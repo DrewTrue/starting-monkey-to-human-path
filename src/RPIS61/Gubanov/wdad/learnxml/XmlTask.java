@@ -29,8 +29,9 @@ public class XmlTask {
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = file;
         this.document = builder.parse(file);
+        //todo check totalcost
     }
-
+//todo rename
     public int countingTotalCostPerOrder() {
         int totalCostPerOrder = 0, quantity, cost;
         Element order = (Element) document.getElementsByTagName("order")
@@ -55,6 +56,7 @@ public class XmlTask {
 
     public Element findDay(Calendar calendar) {
         NodeList days = document.getElementsByTagName("date");
+        //todo Use Element.getAttribute()
         for(int i = 0; i < days.getLength(); i++) {
             if(Integer.parseInt(days.item(i).getAttributes().item(0).getNodeValue()) == calendar.get(Calendar.DATE)
                     && Integer.parseInt(days.item(i).getAttributes().item(1).getNodeValue()) == calendar.get(Calendar.MONTH) + 1
@@ -70,6 +72,11 @@ public class XmlTask {
         Element day = findDay(calendar);
         NodeList officiants = day.getElementsByTagName("officiant");
         for(int i = 0; i < officiants.getLength(); i++){
+            Element officiant = (Element) officiants.item(i);
+            officiant.getAttribute("firstname");
+            Element order = officiant.getParentNode();
+            order.getElementsByTagName("totalcost").item(0);
+
             if(officiants.item(i).getAttributes().item(0).getNodeValue().equals(officiantFirstName)
                     && officiants.item(i).getAttributes().item(1).getNodeValue().equals(officiantSecondName)) {
 //                HEEEEEEEEEEEEEEEEELP
@@ -82,14 +89,17 @@ public class XmlTask {
         }
         return totalCost;
     }
-
+//todo check null
     public void removeDay(Calendar calendar) {
         document.getDocumentElement().removeChild(findDay(calendar));
     }
 
     public void changeOfficiantName(String oldFirstName, String oldSecondName, String newFirstName, String newSecondName) {
         NodeList officiants = document.getElementsByTagName("officiant");
+        //todo Use Element.getAttribute() & setAttribute()
+
         for(int i = 0; i < officiants.getLength(); i++){
+            //todo Element officiant = (Element) officiants.item(i);
             if(officiants.item(i).getAttributes().item(0).getNodeValue().equals(oldFirstName)
                     && officiants.item(i).getAttributes().item(1).getNodeValue().equals(oldSecondName)) {
                 officiants.item(i).getAttributes().item(0).setNodeValue(newFirstName);
