@@ -40,46 +40,81 @@ public class PreferencesManagers {
         return instance;
     }
 
-    public String get(String tagName){
-        NodeList elements = document.getElementsByTagName(tagName);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < elements.getLength(); i++) {
-            stringBuilder.append("tag: ");
-           stringBuilder.append(elements.item(i).getNodeName()).append("\n").append(" attr(s): ");
-            for (int j = 0; j < elements.item(i).getAttributes().getLength(); j++) {
-                stringBuilder.append(elements.item(i).getAttributes().item(j).getNodeName()).append(" = ")
-                        .append(elements.item(i).getAttributes().item(j).getNodeValue()).append("; ");
-            }
-            stringBuilder.append("\n").append("content: ").append(elements.item(i).getTextContent().trim()).append("\n")
-                    .append("has child(s): ");
-            for (int j = 1; j < elements.item(i).getChildNodes().getLength(); j+=2) {
-                stringBuilder.append(elements.item(i).getChildNodes().item(j).getNodeName()).append(" ");
-            }
-            stringBuilder.append("\n");
-        }
-        return stringBuilder.toString();
+    public String getCreateRegistry(){
+        return document.getElementsByTagName("createregistry").item(0).getTextContent();
     }
 
-    public void setElement(String tagName, String content){
-        Node node = document.getElementsByTagName(tagName).item(document.getElementsByTagName(tagName).getLength() - 1);
-        if((tagName.equals("createregistry") || tagName.equals("usecodebaseonly"))
-                && (content.equals("yes") || content.equals("no"))){
-            node.setTextContent(content);
-        }
-        if(tagName.equals("registryaddress") || tagName.equals("registryport")
-                || tagName.equals("policypath") || tagName.equals("classprovider")){
-            node.setTextContent(content);
-        }
+    public void setCreateRigistry(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("createregistry").item(0);
+        createregistry.setTextContent(content);
+        transformer();
     }
 
-    public void addBlindObject(String attrValue1, String attrValue2){
+    public String getRegistryAddress(){
+        return document.getElementsByTagName("registryaddress").item(0).getTextContent();
+    }
+
+    public void setRegistryAddress(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("registryaddress").item(0);
+        createregistry.setTextContent(content);
+        transformer();
+    }
+
+    public String getRegistryPort(){
+        return document.getElementsByTagName("registryport").item(0).getTextContent();
+    }
+
+    public void setRegistryPort(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("registryport").item(0);
+        createregistry.setTextContent(content);
+        transformer();
+    }
+
+    public String getPolicyPath(){
+        return document.getElementsByTagName("policypath").item(0).getTextContent();
+    }
+
+    public void setPolicyPath(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("policypath").item(0);
+        createregistry.setTextContent(content);
+        transformer();
+    }
+
+    public String getUseCodeBaseOnly(){
+        return document.getElementsByTagName("usecodebaseonly").item(0).getTextContent();
+    }
+
+    public void setUseCodeBaseOnly(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("usecodebaseonly").item(0);
+        createregistry.setTextContent(content);
+        transformer();
+    }
+
+    public String getClassProvider(){
+        return document.getElementsByTagName("classprovider").item(0).getTextContent();
+    }
+
+    public void setClassProvider(String content) throws TransformerException, FileNotFoundException {
+        Element createregistry = (Element) document.getElementsByTagName("classprovider").item(0);
+        createregistry.setTextContent(content);
+        transformer();
+    }
+
+    private void set(String tagName, String content) throws TransformerException, FileNotFoundException {
+        Element element = (Element) document.getElementsByTagName(tagName).item(0);
+        element.setTextContent(content);
+        transformer();
+    }
+
+    public void addBlindObject(String attrValue1, String attrValue2) throws TransformerException, FileNotFoundException {
         Element blindObject = document.createElement("blindobject");
         blindObject.setAttribute("name", attrValue1);
         blindObject.setAttribute("class", attrValue2);
         document.getElementsByTagName("server").item(document.getElementsByTagName("server").getLength() - 1).appendChild(blindObject);
+        transformer();
     }
 
-    public void addRegistry(String createRegistryContent, String registryAddressContent, String registryPortContent){
+    public void addRegistry(String createRegistryContent, String registryAddressContent, String registryPortContent) throws TransformerException, FileNotFoundException {
         Element registry = document.createElement("registry");
         Element createregistry = document.createElement("createregistry");
         Element registryaddress = document.createElement("registryaddress");
@@ -87,16 +122,17 @@ public class PreferencesManagers {
         registry.appendChild(createregistry);
         registry.appendChild(registryaddress);
         registry.appendChild(registryport);
-        setElement("createregistry", createRegistryContent);
-        setElement("registryaddress", registryAddressContent);
-        setElement("registryport", registryPortContent);
+        set("createregistry", createRegistryContent);
+        set("registryaddress", registryAddressContent);
+        set("registryport", registryPortContent);
+        transformer();
     }
 
     public Document getDocument() {
         return document;
     }
 
-    public void transformer() throws TransformerException, FileNotFoundException {
+    private void transformer() throws TransformerException, FileNotFoundException {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(new File(path))));

@@ -9,10 +9,9 @@ import java.io.IOException;
 public class TestPreferences {
     public static void main(String[] args) throws TransformerException, IOException, SAXException, ParserConfigurationException {
         PreferencesManagers managers = PreferencesManagers.getInstance();
-        managers.setElement("server", "asd");
+        managers.setClassProvider("classprovider");
+        System.out.println(managers.getClassProvider());
         managers.addBlindObject("asd", "asd");
         managers.addBlindObject("asasdd", "asda");
-        managers.addRegistry("no","asd","sa");
-        managers.transformer();
     }
 }
