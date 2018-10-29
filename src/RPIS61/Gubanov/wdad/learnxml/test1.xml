@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><restaurant name="McBurgerC"><date day="16" month="10" year="2018"><order><officiant firstname="John" lastname="Stones"/><item cost="5" name="Chicken wings">3</item><item cost="2" name="Cola">2</item><totalcost>19</totalcost></order><order><officiant firstname="John" lastname="Stones"/><item cost="5" name="Chicken wings">30</item><item cost="2" name="Cola">12</item><totalcost>174</totalcost></order></date></restaurant>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<restaurant>
+<date day="20" month="10" year="2018">
+<order>
+<officiant firstname="John" lastname="Stones"/>
+<item cost="5" name="Chicken wings">3</item>
+<item cost="2" name="Cola">2</item>
+<totalcost>19</totalcost>
+</order>
+<order>
+<officiant firstname="John" lastname="Stones"/>
+<item cost="5" name="Chicken wings">30</item>
+<item cost="2" name="Cola">12</item>
+<totalcost>174</totalcost>
+</order>
+</date>
+</restaurant>
