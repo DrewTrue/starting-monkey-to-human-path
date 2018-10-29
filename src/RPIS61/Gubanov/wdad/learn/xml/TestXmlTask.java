@@ -1,23 +1,18 @@
-package RPIS61.Gubanov.wdad.learnxml;
+package RPIS61.Gubanov.wdad.learn.xml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
 public class TestXmlTask {
     public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException, SAXException {
         File file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
-//                "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\test2.xml");
-                "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\test1.xml");
+//                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\test2.xml");
+                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\test1.xml");
         XmlTask xmlTask = new XmlTask(file);
 //        XmlTask xmlTask = new XmlTask("test1");
 //        xmlTask.buildingXmlDocument();
@@ -40,7 +35,7 @@ public class TestXmlTask {
         xmlTask.removeDay(calendar);
 
 //        File file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
-//                "\\src\\RPIS61\\Gubanov\\wdad\\learnxml\\test1.xml");
+//                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\test1.xml");
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.set(2018, Calendar.OCTOBER, 16);
 //        XmlTask xmlTask = new XmlTask(file);
