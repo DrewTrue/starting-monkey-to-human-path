@@ -12,7 +12,7 @@ public class TestXmlTask {
     public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException, SAXException {
         File file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
 //                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\test2.xml");
-                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\test1.xml");
+                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\xml\\test1.xml");
         XmlTask xmlTask = new XmlTask(file);
 //        XmlTask xmlTask = new XmlTask("test1");
 //        xmlTask.buildingXmlDocument();

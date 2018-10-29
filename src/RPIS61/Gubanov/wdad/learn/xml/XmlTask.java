@@ -20,7 +20,7 @@ public class XmlTask {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
-                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\" + fileName +".xml");
+                "\\src\\RPIS61\\Gubanov\\wdad\\learn\\xml\\" + fileName +".xml");
         this.document = builder.newDocument();
     }
 
