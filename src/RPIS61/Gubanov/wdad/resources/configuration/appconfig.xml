@@ -11,6 +11,8 @@
 <blindobject class="asda" name="asasdd"/>
 <blindobject class="asd" name="asd"/>
 <blindobject class="asda" name="asasdd"/>
+<blindobject class="asd" name="asd"/>
+<blindobject class="asda" name="asasdd"/>
 </server>
         <client>
             <policypath>client.policy</policypath>
