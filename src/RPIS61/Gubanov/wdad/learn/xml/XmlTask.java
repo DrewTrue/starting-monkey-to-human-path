@@ -29,7 +29,6 @@ public class XmlTask {
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = file;
         this.document = builder.parse(file);
-        //todo check totalcost
         totalcostValidation();
     }
 
@@ -38,13 +37,14 @@ public class XmlTask {
         Element order, totalcost;
         for (int i = 0; i < orders.getLength(); i++) {
             order = (Element) orders.item(i);
-            if(order.getElementsByTagName("totalcost").getLength() == 0){
+            NodeList totalCostNodeList = order.getElementsByTagName("totalcost");
+            if(totalCostNodeList.getLength() == 0){
                 totalcost = document.createElement("totalcost");
                 totalcost.setTextContent(String.valueOf(getTotalCost(order)));
                 order.appendChild(totalcost);
                 transformer();
             } else {
-                totalcost = (Element) order.getElementsByTagName("totalcost").item(0);
+                totalcost = (Element) totalCostNodeList.item(0);
                 if(totalcost.getTextContent() == null){
                     totalcost.setTextContent(String.valueOf(getTotalCost(order)));
                     transformer();
@@ -66,7 +66,6 @@ public class XmlTask {
         return totalcost;
     }
 
-//todo rename
     private int getTotalCostPerLastOrder() {
         int totalcost = 0, quantity, cost;
         Element item, order = (Element) document.getElementsByTagName("order")
@@ -92,7 +91,6 @@ public class XmlTask {
 
     private Element findDay(Calendar day) {
         NodeList days = document.getElementsByTagName("date");
-        //todo Use Element.getAttribute()
         Element calendar;
         for(int i = 0; i < days.getLength(); i++) {
             calendar = (Element) days.item(i);
@@ -122,7 +120,7 @@ public class XmlTask {
         }
         return totalCost;
     }
-//todo check null
+
     public void removeDay(Calendar calendar) throws TransformerException, FileNotFoundException {
         Element day = findDay(calendar);
         if(day != null)
@@ -132,10 +130,8 @@ public class XmlTask {
 
     public void changeOfficiantName(String oldFirstName, String oldSecondName, String newFirstName, String newSecondName) throws TransformerException, FileNotFoundException {
         NodeList officiants = document.getElementsByTagName("officiant");
-        //todo Use Element.getAttribute() & setAttribute()
         Element officiant;
         for(int i = 0; i < officiants.getLength(); i++){
-            //todo Element officiant = (Element) officiants.item(i);
             officiant = (Element) officiants.item(i);
             if(officiant.getAttribute("firstname").equals(oldFirstName)
                     && officiant.getAttribute("lastname").equals(oldSecondName)) {
