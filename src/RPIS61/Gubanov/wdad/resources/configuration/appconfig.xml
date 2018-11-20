@@ -7,11 +7,10 @@
                 <registryaddress>localhost</registryaddress>
                 <registryport>1099</registryport>
             </registry>
-        <blindobject class="asd" name="asd"/>
+
 <blindobject class="asda" name="asasdd"/>
-<blindobject class="asd" name="asd"/>
 <blindobject class="asda" name="asasdd"/>
-<blindobject class="asd" name="asd"/>
+<blindobject class="asda" name="asasdd"/>
 <blindobject class="asda" name="asasdd"/>
 </server>
         <client>
