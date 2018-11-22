@@ -25,7 +25,7 @@ import java.util.Properties;
 
 public class PreferencesManagers {
     private final static String path = "C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path\\" +
-            "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.xml";
+            "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.RPIS61.Gubanov.wdad.learn.xml";
 
     private Document document;
     private static PreferencesManagers instance;

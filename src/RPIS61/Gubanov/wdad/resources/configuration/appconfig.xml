@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?RPIS61.Gubanov.wdad.learn.xml version="1.0" encoding="UTF-8" standalone="no"?>
 <appconfig>
     <rmi>
         <server>
@@ -8,10 +8,7 @@
                 <registryport>1099</registryport>
             </registry>
 
-<blindobject class="asda" name="asasdd"/>
-<blindobject class="asda" name="asasdd"/>
-<blindobject class="asda" name="asasdd"/>
-<blindobject class="asda" name="asasdd"/>
+<blindobject class="s" name="a"/>
 </server>
         <client>
             <policypath>client.policy</policypath>
