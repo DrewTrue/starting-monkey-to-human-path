@@ -3,7 +3,6 @@ package RPIS61.Gubanov.wdad.data.managers;
 import RPIS61.Gubanov.wdad.utils.PreferencesManagerConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -20,26 +19,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Properties;
 
-public class PreferencesManagers {
+public class PreferencesManager {
     private final static String path = "C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path\\" +
             "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.xml";
 
     private Document document;
-    private static PreferencesManagers instance;
+    private static PreferencesManager instance;
     private Properties properties;
     private String[] keys;
 
-    private PreferencesManagers() throws IOException, SAXException, ParserConfigurationException {
+    private PreferencesManager() throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.document = builder.parse(new File(path));
         this.properties = new Properties();
-        this.keys = new String[]{PreferencesManagerConstants.createRegistry, PreferencesManagerConstants.registryAddress,
-                PreferencesManagerConstants.registryPort, PreferencesManagerConstants.policyPath,
-                PreferencesManagerConstants.useCodebaseOnly, PreferencesManagerConstants.classProvider};
+        this.keys = new String[]{PreferencesManagerConstants.CREATE_REGISTRY, PreferencesManagerConstants.REGISTRY_ADDRESS,
+                PreferencesManagerConstants.REGISTRY_PORT, PreferencesManagerConstants.POLICY_PATH,
+                PreferencesManagerConstants.USE_CODEBASE_ONLY, PreferencesManagerConstants.CLASS_PROVIDER};
         propertySetting();
     }
 
@@ -54,9 +52,9 @@ public class PreferencesManagers {
         }
     }
 
-    public static PreferencesManagers getInstance() throws ParserConfigurationException, SAXException, IOException {
+    public static PreferencesManager getInstance() throws ParserConfigurationException, SAXException, IOException {
         if(instance == null){
-            instance = new PreferencesManagers();
+            instance = new PreferencesManager();
         }
         return instance;
     }

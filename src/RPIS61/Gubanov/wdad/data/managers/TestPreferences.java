@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TestPreferences {
     public static void main(String[] args) throws TransformerException, IOException, SAXException, ParserConfigurationException {
-        PreferencesManagers managers = PreferencesManagers.getInstance();
+        PreferencesManager managers = PreferencesManager.getInstance();
 //        managers.setClassProvider("classprovider");
 //        System.out.println(managers.getClassProvider());
         managers.addBindObject("asd", "asd");

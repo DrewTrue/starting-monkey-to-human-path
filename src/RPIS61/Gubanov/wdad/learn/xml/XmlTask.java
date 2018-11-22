@@ -1,5 +1,7 @@
 package RPIS61.Gubanov.wdad.learn.xml;
 
+import RPIS61.Gubanov.wdad.learn.rmi.Officiant;
+import RPIS61.Gubanov.wdad.learn.rmi.Order;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -10,7 +12,9 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class XmlTask {
     private Document document;
@@ -29,7 +33,7 @@ public class XmlTask {
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.file = file;
         this.document = builder.parse(file);
-                totalcostValidation();
+        totalcostValidation();
     }
 
     private void totalcostValidation() throws TransformerException, FileNotFoundException {
@@ -77,11 +81,6 @@ public class XmlTask {
             totalcost += cost * quantity;
         }
         return totalcost;
-    }
-
-    public void addTotalCost(){
-        addTagElement("totalcost", "order");
-        setTagText("totalcost", String.valueOf(getTotalCostPerLastOrder()));
     }
 
     public org.w3c.dom.Document getDocument() {
@@ -141,8 +140,14 @@ public class XmlTask {
         transformer();
     }
 
-    public void buildingXmlDocument() {
-        document.appendChild(document.createElement("restaurant"));
+    public List<Order> getOrders(Calendar calendar){
+        List<Order> orders = new ArrayList<>();
+        return null;
+    }
+
+    public Calendar lastOfficientWorkDate(Officiant officiant){
+
+        return null;
     }
 
     private Element addTagElement(String elementName, String parentName) {
@@ -168,6 +173,15 @@ public class XmlTask {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(file)));
+    }
+
+    public void buildingXmlDocument() {
+        document.appendChild(document.createElement("restaurant"));
+    }
+
+    public void addTotalCost(){
+        addTagElement("totalcost", "order");
+        setTagText("totalcost", String.valueOf(getTotalCostPerLastOrder()));
     }
 
     public Element addAnOrder() throws TransformerException, FileNotFoundException {
