@@ -25,7 +25,7 @@ import java.util.Properties;
 
 public class PreferencesManagers {
     private final static String path = "C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path\\" +
-            "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.RPIS61.Gubanov.wdad.learn.xml";
+            "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.xml";
 
     private Document document;
     private static PreferencesManagers instance;
@@ -133,19 +133,19 @@ public class PreferencesManagers {
         transformer();
     }
 
-    public void addBlindObject(String name, String className) throws TransformerException, FileNotFoundException {
-        Element blindObject = document.createElement("blindobject");
+    public void addBindObject(String name, String className) throws TransformerException, FileNotFoundException {
+        Element blindObject = document.createElement("bindobject");
         blindObject.setAttribute("name", name);
         blindObject.setAttribute("class", className);
         document.getElementsByTagName("server").item(0).appendChild(blindObject);
         transformer();
     }
 
-    public void removeBlindObject(String name) throws TransformerException, FileNotFoundException {
-        NodeList blindobjects = document.getDocumentElement().getElementsByTagName("blindobject");
+    public void removeBindObject(String name) throws TransformerException, FileNotFoundException {
+        NodeList bindobjects = document.getDocumentElement().getElementsByTagName("bindobject");
         Element blindobject;
-        for (int i = 0; i < blindobjects.getLength(); i++) {
-            blindobject = (Element) blindobjects.item(i);
+        for (int i = 0; i < bindobjects.getLength(); i++) {
+            blindobject = (Element) bindobjects.item(i);
             if(blindobject.getAttribute("name").equals(name)){
                 blindobject.getParentNode().removeChild(blindobject);
             }

@@ -11,8 +11,8 @@ public class TestPreferences {
         PreferencesManagers managers = PreferencesManagers.getInstance();
 //        managers.setClassProvider("classprovider");
 //        System.out.println(managers.getClassProvider());
-        managers.addBlindObject("asd", "asd");
-        managers.addBlindObject("asasdd", "asda");
-        managers.removeBlindObject("asd");
+        managers.addBindObject("asd", "asd");
+        managers.addBindObject("asasdd", "asda");
+        managers.removeBindObject("asd");
     }
 }

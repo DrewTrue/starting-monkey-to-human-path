@@ -8,7 +8,7 @@
                 <registryport>1099</registryport>
             </registry>
 
-<blindobject class="s" name="a"/>
+<bindobject class="s" name="a"/>
 </server>
         <client>
             <policypath>client.policy</policypath>
