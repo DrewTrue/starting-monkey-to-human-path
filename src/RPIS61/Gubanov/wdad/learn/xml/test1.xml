@@ -11,6 +11,7 @@
 <officiant firstname="John" lastname="Stones"/>
 <item cost="5" name="Chicken wings">30</item>
 <item cost="2" name="Cola">12</item>
+<totalcost>174</totalcost>
 </order>
 </date>
 </restaurant>

@@ -8,18 +8,19 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class XmlDataManagerImpl implements XmlDataManager {
+public class XmlDataManagerImpl extends UnicastRemoteObject implements XmlDataManager, Serializable {
     private XmlTask restaurant;
 
-    public XmlDataManagerImpl(File file) throws ParserConfigurationException, TransformerException, SAXException, IOException {
-        this.restaurant = new XmlTask(file);
+    public XmlDataManagerImpl() throws ParserConfigurationException, TransformerException, SAXException, IOException {
+        super();
+        this.restaurant = new XmlTask();
     }
 
     @Override

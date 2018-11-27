@@ -13,11 +13,11 @@ import java.rmi.registry.Registry;
 public class Client {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         PreferencesManager manager = PreferencesManager.getInstance();
+        System.setProperty("java.security.policy", manager.getProperty(PreferencesManagerConstants.POLICY_PATH));
+        System.setProperty("java.rmi.server.usecodebaseonly", manager.getProperty(PreferencesManagerConstants.USE_CODEBASE_ONLY));
         if(System.getSecurityManager() == null){
             System.setSecurityManager(new SecurityManager());
         }
-        System.setProperty("java.security.policy", manager.getProperty(PreferencesManagerConstants.POLICY_PATH));
-        System.setProperty("java.rmi.server.usecodebaseonly", manager.getProperty(PreferencesManagerConstants.USE_CODEBASE_ONLY));
         Registry registry;
         try{
             registry = LocateRegistry.getRegistry(manager.getProperty(PreferencesManagerConstants.REGISTRY_ADDRESS),

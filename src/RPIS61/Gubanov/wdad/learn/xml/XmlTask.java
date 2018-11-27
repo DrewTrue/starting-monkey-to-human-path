@@ -12,13 +12,18 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.nio.file.Path;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class XmlTask {
+public class XmlTask implements Serializable{
     private Document document;
     private File file;
+
+    private final static String PATH = "C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
+            "\\src\\RPIS61\\Gubanov\\wdad\\learn\\xml\\test1.xml";
 
     public XmlTask(String fileName) throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -26,6 +31,10 @@ public class XmlTask {
         this.file = new File("C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path" +
                 "\\src\\RPIS61\\Gubanov\\wdad\\learn\\xml\\" + fileName +".xml");
         this.document = builder.newDocument();
+    }
+
+    public XmlTask() throws ParserConfigurationException, TransformerException, SAXException, IOException {
+        this(new File(PATH));
     }
 
     public XmlTask(File file) throws ParserConfigurationException, IOException, SAXException, TransformerException {
@@ -142,7 +151,7 @@ public class XmlTask {
 
     public List<Order> getOrders(Calendar calendar){
         List<Order> orders = new ArrayList<>();
-        return null;
+        return orders;
     }
 
     public Calendar lastOfficientWorkDate(Officiant officiant){
