@@ -1,7 +1,6 @@
 package RPIS61.Gubanov.wdad.learn.xml;
 
-import RPIS61.Gubanov.wdad.learn.rmi.Officiant;
-import RPIS61.Gubanov.wdad.learn.rmi.Order;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -12,11 +11,10 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.nio.file.Path;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class XmlTask implements Serializable{
     private Document document;
@@ -151,12 +149,62 @@ public class XmlTask implements Serializable{
 
     public List<Order> getOrders(Calendar calendar){
         List<Order> orders = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
+        Element day = findDay(calendar);
+        NodeList orderList = day.getElementsByTagName("order");
+        NodeList itemList;
+        Order order;
+        Item item;
+        Officiant officiant;
+        Element orderElement, officiantElement, itemElement;
+
+        for (int i = 0; i < orderList.getLength(); i++) {
+           orderElement = (Element) orderList.item(i);
+           officiantElement = (Element) orderElement.getElementsByTagName("officiant").item(0);
+           officiant = new Officiant(officiantElement.getAttribute("firstname"), officiantElement.getAttribute("lastname"));
+
+           itemList = orderElement.getElementsByTagName("item");
+            for (int j = 0; j < itemList.getLength(); j++) {
+                itemElement = (Element) itemList.item(i);
+                item = new Item(itemElement.getAttribute("name"), Integer.parseInt(itemElement.getAttribute("cost")));
+                items.add(item);
+            }
+            order = new Order(officiant, items);
+            orders.add(order);
+        }
+
         return orders;
     }
 
     public Calendar lastOfficientWorkDate(Officiant officiant){
+        NodeList officiants, days = document.getElementsByTagName("date");
+        Element officiantElement, dayElement;
+        Calendar calendar;
+        int year, month, day;
+        for (int j = 0; j < days.getLength(); j++) {
+            dayElement = (Element) days.item(j);
+            officiants = dayElement.getElementsByTagName("officiant");
+            for (int i = 0; i < officiants.getLength(); i++) {
+                officiantElement = (Element) officiants.item(i);
+                if (officiantElement.getAttribute("firstname").equals(officiant.getFirstName())
+                        && officiantElement.getAttribute("lastname").equals(officiant.getSecondName())) {
+                    year = Integer.parseInt(dayElement.getAttribute("year"));
+                    month = Integer.parseInt(dayElement.getAttribute("month"));
+                    day = Integer.parseInt(dayElement.getAttribute("day"));
+                    calendar = Calendar.getInstance();
+                    calendar.set(year, month - 1, day);
+                    return calendar;
+                }
+            }
+        }
 
         return null;
+    }
+
+    private void transformer() throws TransformerException, FileNotFoundException {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(file)));
     }
 
     private Element addTagElement(String elementName, String parentName) {
@@ -176,12 +224,6 @@ public class XmlTask implements Serializable{
         Element element = (Element) document.getElementsByTagName(tagName)
                 .item (document.getElementsByTagName(tagName).getLength() - 1);
         element.setTextContent(text);
-    }
-
-    private void transformer() throws TransformerException, FileNotFoundException {
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(file)));
     }
 
     public void buildingXmlDocument() {

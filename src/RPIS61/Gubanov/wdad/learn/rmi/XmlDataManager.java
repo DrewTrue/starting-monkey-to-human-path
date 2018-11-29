@@ -1,9 +1,11 @@
 package RPIS61.Gubanov.wdad.learn.rmi;
 
+import RPIS61.Gubanov.wdad.learn.xml.Officiant;
+import RPIS61.Gubanov.wdad.learn.xml.Order;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public interface XmlDataManager extends Remote {

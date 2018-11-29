@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <restaurant>
-<date day="22" month="11" year="2018">
-<order>
-<officiant firstname="John" lastname="Stones"/>
-<item cost="5" name="Chicken wings">3</item>
-<item cost="2" name="Cola">2</item>
-<totalcost>19</totalcost>
-</order>
-<order>
-<officiant firstname="John" lastname="Stones"/>
-<item cost="5" name="Chicken wings">30</item>
-<item cost="2" name="Cola">12</item>
-<totalcost>174</totalcost>
-</order>
-</date>
+    <date day="22" month="11" year="2018">
+        <order>
+            <officiant firstname="John" lastname="Stones"/>
+            <item cost="5" name="Chicken wings">3</item>
+            <item cost="2" name="Cola">2</item>
+            <totalcost>19</totalcost>
+        </order>
+        <order>
+            <officiant firstname="John" lastname="Stones"/>
+            <item cost="5" name="Chicken wings">30</item>
+            <item cost="2" name="Cola">12</item>
+        <totalcost>174</totalcost>
+        </order>
+    </date>
+    <date day="29" month="11" year="2018">
+        <order>
+            <officiant firstname="John" lastname="Stones"/>
+            <item cost="5" name="Chicken wings">3</item>
+            <item cost="2" name="Cola">2</item>
+            <totalcost>19</totalcost>
+        </order>
+        <order>
+            <officiant firstname="John" lastname="Stones"/>
+            <item cost="5" name="Chicken wings">30</item>
+            <item cost="2" name="Cola">12</item>
+        <totalcost>174</totalcost>
+        </order>
+    </date>
 </restaurant>

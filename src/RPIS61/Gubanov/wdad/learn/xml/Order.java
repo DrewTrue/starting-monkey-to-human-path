@@ -1,15 +1,11 @@
-package RPIS61.Gubanov.wdad.learn.rmi;
+package RPIS61.Gubanov.wdad.learn.xml;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private Officiant officiant;
     private List<Item> items;
-
-    public Order(Officiant officiant){
-        this(officiant, new ArrayList<>());
-    }
 
     public Order(Officiant officiant, List<Item> items){
         this.officiant = officiant;

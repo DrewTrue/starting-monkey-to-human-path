@@ -1,7 +1,7 @@
 package RPIS61.Gubanov.wdad.learn.rmi.server;
 
-import RPIS61.Gubanov.wdad.learn.rmi.Officiant;
-import RPIS61.Gubanov.wdad.learn.rmi.Order;
+import RPIS61.Gubanov.wdad.learn.xml.Officiant;
+import RPIS61.Gubanov.wdad.learn.xml.Order;
 import RPIS61.Gubanov.wdad.learn.rmi.XmlDataManager;
 import RPIS61.Gubanov.wdad.learn.xml.XmlTask;
 import org.xml.sax.SAXException;
@@ -11,7 +11,6 @@ import javax.xml.transform.TransformerException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Calendar;
 import java.util.List;
 

@@ -1,6 +1,8 @@
-package RPIS61.Gubanov.wdad.learn.rmi;
+package RPIS61.Gubanov.wdad.learn.xml;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private String name;
     private int cost;
 

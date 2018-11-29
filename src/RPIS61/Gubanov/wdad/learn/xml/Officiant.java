@@ -1,6 +1,8 @@
-package RPIS61.Gubanov.wdad.learn.rmi;
+package RPIS61.Gubanov.wdad.learn.xml;
 
-public class Officiant {
+import java.io.Serializable;
+
+public class Officiant implements Serializable {
     private String firstName;
     private String secondName;
 

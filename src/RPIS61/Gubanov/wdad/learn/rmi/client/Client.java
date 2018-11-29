@@ -33,7 +33,7 @@ public class Client {
             System.out.println(list.length);
             XmlDataManager stub = (XmlDataManager) registry.lookup("XmlDataManager");
             System.out.println("stub executing...");
-            System.out.println(stub.getOrders(Calendar.getInstance()));
+            System.out.println(stub.getOrders(Calendar.getInstance()).get(0).getOfficiant().getFirstName());
         }
         catch (Exception e){
             System.out.println("crushed ");
