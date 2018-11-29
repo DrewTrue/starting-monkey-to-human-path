@@ -15,11 +15,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Calendar;
 import java.util.List;
 
-public class XmlDataManagerImpl extends UnicastRemoteObject implements XmlDataManager, Serializable {
+public class XmlDataManagerImpl implements XmlDataManager, Serializable {
     private XmlTask restaurant;
 
     public XmlDataManagerImpl() throws ParserConfigurationException, TransformerException, SAXException, IOException {
-        super();
         this.restaurant = new XmlTask();
     }
 
