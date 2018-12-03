@@ -1,6 +1,5 @@
 package RPIS61.Gubanov.wdad.learn.xml;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -14,7 +13,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class XmlTask implements Serializable{
     private Document document;

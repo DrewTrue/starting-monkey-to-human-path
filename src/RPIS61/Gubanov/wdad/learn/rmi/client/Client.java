@@ -2,6 +2,7 @@ package RPIS61.Gubanov.wdad.learn.rmi.client;
 
 import RPIS61.Gubanov.wdad.data.managers.PreferencesManager;
 import RPIS61.Gubanov.wdad.learn.rmi.XmlDataManager;
+import RPIS61.Gubanov.wdad.learn.xml.Officiant;
 import RPIS61.Gubanov.wdad.utils.PreferencesManagerConstants;
 import org.xml.sax.SAXException;
 
@@ -34,6 +35,7 @@ public class Client {
             XmlDataManager stub = (XmlDataManager) registry.lookup("XmlDataManager");
             System.out.println("stub executing...");
             System.out.println(stub.getOrders(Calendar.getInstance()).get(0).getOfficiant().getFirstName());
+            System.out.println(stub.earningsTotal(new Officiant("John", "Stones"), Calendar.getInstance()));
             stub.removeDay(Calendar.getInstance());
         }
         catch (Exception e){

@@ -4,14 +4,16 @@
         <server>
             <registry>
                 <createregistry>yes</createregistry>
-                <registryaddress>10.0.232.63</registryaddress>
+                <registryaddress>127.0.0.1</registryaddress>
                 <registryport>1098</registryport>
             </registry>
 
 <bindobject class="s" name="a"/>
+<bindobject class="XmlDataManager" name="XmlDataManager"/>
+<bindobject class="XmlDataManager" name="XmlDataManager"/>
 </server>
         <client>
-            <policypath>C:\Users\пользователь\IdeaProjects\starting-monkey-to-human-path\src\RPIS61\Gubanov\wdad\resources\configuration\security.policy</policypath>
+            <policypath>src\RPIS61\Gubanov\wdad\resources\configuration\security.policy</policypath>
             <usecodebaseonly>no</usecodebaseonly>
         </client>
         <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>

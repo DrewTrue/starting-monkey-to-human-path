@@ -36,6 +36,7 @@ public class Server {
 //            UnicastRemoteObject.exportObject(xmlDataManager,0);
             System.out.println("bind object");
             registry.bind("XmlDataManager", xmlDataManager);
+            manager.addBindObject("XmlDataManager", "XmlDataManager");
             System.out.println("server is ready");
         }
         catch (Exception e){
