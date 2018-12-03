@@ -4,7 +4,7 @@
         <server>
             <registry>
                 <createregistry>yes</createregistry>
-                <registryaddress>127.0.0.1</registryaddress>
+                <registryaddress>10.0.232.63</registryaddress>
                 <registryport>1098</registryport>
             </registry>
 

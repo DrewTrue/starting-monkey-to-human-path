@@ -22,8 +22,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PreferencesManager {
-    private final static String path = "C:\\Users\\пользователь\\IdeaProjects\\starting-monkey-to-human-path\\" +
-            "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.xml";
+    private final static String path = "src\\RPIS61\\Gubanov\\wdad\\resources\\configuration\\appconfig.xml";
 
     private Document document;
     private static PreferencesManager instance;
@@ -169,30 +168,6 @@ public class PreferencesManager {
     public Properties getProperties(){
         return properties;
     }
-
-//    private void set(String tagName, String content) throws TransformerException, FileNotFoundException {
-//        Element element = (Element) document.getElementsByTagName(tagName).item(0);
-//        element.setTextContent(content);
-//        transformer();
-//    }
-//
-//    public void addRegistry(String createRegistryContent, String registryAddressContent, String registryPortContent) throws TransformerException, FileNotFoundException {
-//        Element registry = document.createElement("registry");
-//        Element createregistry = document.createElement("createregistry");
-//        Element registryaddress = document.createElement("registryaddress");
-//        Element registryport = document.createElement("registryport");
-//        registry.appendChild(createregistry);
-//        registry.appendChild(registryaddress);
-//        registry.appendChild(registryport);
-//        set("createregistry", createRegistryContent);
-//        set("registryaddress", registryAddressContent);
-//        set("registryport", registryPortContent);
-//        transformer();
-//    }
-//
-//    public Document getDocument() {
-//        return document;
-//    }
 
     private void transformer() throws TransformerException, FileNotFoundException {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();

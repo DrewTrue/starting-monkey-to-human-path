@@ -34,6 +34,7 @@ public class Client {
             XmlDataManager stub = (XmlDataManager) registry.lookup("XmlDataManager");
             System.out.println("stub executing...");
             System.out.println(stub.getOrders(Calendar.getInstance()).get(0).getOfficiant().getFirstName());
+            stub.removeDay(Calendar.getInstance());
         }
         catch (Exception e){
             System.out.println("crushed ");

@@ -23,14 +23,13 @@ public class Server {
             System.setSecurityManager(new SecurityManager());
         }
 //        System.out.println(System.getProperty("java.class.path"));
-//        Registry registry;
         try {
             System.out.println("initialization registry");
-//            if(manager.getProperty(PreferencesManagerConstants.CREATE_REGISTRY).equals("yes")){
+            if(manager.getProperty(PreferencesManagerConstants.CREATE_REGISTRY).equals("yes")){
                 registry = LocateRegistry.createRegistry(Integer.parseInt(manager.getProperty(PreferencesManagerConstants.REGISTRY_PORT)));
-//            } else {
-//                registry = LocateRegistry.getRegistry(Integer.parseInt(manager.getProperty(PreferencesManagerConstants.REGISTRY_PORT)));
-//            }
+            } else {
+                registry = LocateRegistry.getRegistry(Integer.parseInt(manager.getProperty(PreferencesManagerConstants.REGISTRY_PORT)));
+            }
             XmlDataManagerImpl xmlDataManager = new XmlDataManagerImpl();
             System.out.println("export object");
             XmlDataManager stub = (XmlDataManager) UnicastRemoteObject.exportObject(xmlDataManager,0);

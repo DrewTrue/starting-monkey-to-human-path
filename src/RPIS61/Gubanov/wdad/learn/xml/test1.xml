@@ -14,7 +14,7 @@
         <totalcost>174</totalcost>
         </order>
     </date>
-    <date day="29" month="11" year="2018">
+    <date day="30" month="11" year="2018">
         <order>
             <officiant firstname="John" lastname="Stones"/>
             <item cost="5" name="Chicken wings">3</item>
