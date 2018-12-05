@@ -1,8 +1,8 @@
 package RPIS61.Gubanov.wdad.learn.rmi.server;
 
+import RPIS61.Gubanov.wdad.data.managers.DataManager;
 import RPIS61.Gubanov.wdad.learn.xml.Officiant;
 import RPIS61.Gubanov.wdad.learn.xml.Order;
-import RPIS61.Gubanov.wdad.learn.rmi.XmlDataManager;
 import RPIS61.Gubanov.wdad.learn.xml.XmlTask;
 import org.xml.sax.SAXException;
 
@@ -14,10 +14,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-public class XmlDataManagerImpl implements XmlDataManager, Serializable {
+public class DataManagerImpl implements DataManager, Serializable {
     private XmlTask restaurant;
 
-    public XmlDataManagerImpl() throws ParserConfigurationException, TransformerException, SAXException, IOException {
+    public DataManagerImpl() throws ParserConfigurationException, TransformerException, SAXException, IOException {
         this.restaurant = new XmlTask();
     }
 

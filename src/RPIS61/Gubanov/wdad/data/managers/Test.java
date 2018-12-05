@@ -6,13 +6,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
-public class TestPreferences {
+public class Test {
     public static void main(String[] args) throws TransformerException, IOException, SAXException, ParserConfigurationException {
         PreferencesManager managers = PreferencesManager.getInstance();
 //        managers.setClassProvider("classprovider");
 //        System.out.println(managers.getClassProvider());
-        managers.addBindObject("asd", "asd");
-        managers.addBindObject("asasdd", "asda");
-        managers.removeBindObject("asd");
+//        managers.addBindObject("asd", "asd");
+//        managers.addBindObject("asasdd", "asda");
+//        managers.removeBindObject("asd");
+        JDBCDataManager dataManager = new JDBCDataManager();
+        
     }
 }

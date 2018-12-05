@@ -1,7 +1,7 @@
 package RPIS61.Gubanov.wdad.learn.rmi.server;
 
 import RPIS61.Gubanov.wdad.data.managers.PreferencesManager;
-import RPIS61.Gubanov.wdad.learn.rmi.XmlDataManager;
+import RPIS61.Gubanov.wdad.data.managers.DataManager;
 import RPIS61.Gubanov.wdad.utils.PreferencesManagerConstants;
 import org.xml.sax.SAXException;
 
@@ -30,13 +30,13 @@ public class Server {
             } else {
                 registry = LocateRegistry.getRegistry(Integer.parseInt(manager.getProperty(PreferencesManagerConstants.REGISTRY_PORT)));
             }
-            XmlDataManagerImpl xmlDataManager = new XmlDataManagerImpl();
+            DataManagerImpl xmlDataManager = new DataManagerImpl();
             System.out.println("export object");
-            XmlDataManager stub = (XmlDataManager) UnicastRemoteObject.exportObject(xmlDataManager,0);
+            DataManager stub = (DataManager) UnicastRemoteObject.exportObject(xmlDataManager,0);
 //            UnicastRemoteObject.exportObject(xmlDataManager,0);
             System.out.println("bind object");
-            registry.bind("XmlDataManager", xmlDataManager);
-            manager.addBindObject("XmlDataManager", "XmlDataManager");
+            registry.bind("DataManager", xmlDataManager);
+            manager.addBindObject("DataManager", "DataManager");
             System.out.println("server is ready");
         }
         catch (Exception e){
