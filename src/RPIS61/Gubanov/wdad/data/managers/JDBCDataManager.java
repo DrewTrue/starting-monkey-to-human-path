@@ -10,16 +10,15 @@ import javax.sql.DataSource;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class JDBCDataManager implements DataManager {
     private Statement statement;
+    DataSource ds;
+    private static final String OFFICIANT_ID_QUERY = "select id from officiants where first_name = ? and second_name = ?";
 
     private final static String DROP_VIEW_QUERY = "drop view restaurant_view";
     private final static String CREATE_VIEW_QUERY = "create or replace view restaurant_view as select \n" +
@@ -33,6 +32,7 @@ public class JDBCDataManager implements DataManager {
             "and io.items_dictionary_id = i.id";
 
     public JDBCDataManager() throws ParserConfigurationException, SAXException, IOException, SQLException {
+        //todo one connection per method
         DataSource dataSource = DataSourceFactory.createDataSource();
         Connection connection = dataSource.getConnection();
         this.statement = connection.createStatement();
@@ -58,8 +58,14 @@ public class JDBCDataManager implements DataManager {
 
     private String getOfficiantID(Officiant officiant){
         String id = null;
-        String sqlQuery = "select id from officiants where first_name = " + '"' + officiant.getFirstName() + '"'
-                + "and second_name = " + '"' + officiant.getSecondName() + '"';
+
+        //todo other method same as here
+        Connection connection = ds.getConnection();
+        PreparedStatement statement = connection.prepareStatement(OFFICIANT_ID_QUERY);
+        statement.setString(1, officiant.getFirstName());
+        statement.setString(2, officiant.getSecondName());
+        statement.setDate();
+
         ResultSet result = null;
         try {
             result = statement.executeQuery(sqlQuery);
@@ -89,8 +95,10 @@ public class JDBCDataManager implements DataManager {
         }
         String date = getMySQLDate(calendar);
         ResultSet result = null;
-        String sqlQuery = "select quantity, cost from restaurant_view where date(date) = "
-                            + '"' + date + '"' + "and officiant_id = " + officaintId;
+        //todo use agregate functions
+        //todo JOIN items ON (items.id = orders_items.item_id) JOIN officiants ON (officiants.id = oreders_items.officians.id)
+        String sqlQuery = "select SUMM(items.cost * quantity) from restaurant_view where date(date) = "
+                            + '"' + date + '"' + "and officiant_id = ";
         try {
             result = statement.executeQuery(sqlQuery);
             while (result.next()){
@@ -112,8 +120,10 @@ public class JDBCDataManager implements DataManager {
 
     @Override
     public void removeDay(Calendar calendar) throws RemoteException {
-        String date = getMySQLDate(calendar);
-        String sqlQuery = "delete from orders where date(date) = " + '"' + date + '"';
+        //todo
+        Connection connection = ds.getConnection();
+        PreparedStatement statement = connection.prepareStatement("delete from orders where date(date) = ?");
+        statement.setDate(1, new java.sql.Date(calendar.getTimeInMillis()));
         try {
             statement.execute(sqlQuery);
         } catch (SQLException e) {
@@ -210,6 +220,7 @@ public class JDBCDataManager implements DataManager {
             System.out.println("there is no such officiant");
             return null;
         }
+        //todo use MAX(date)
         String sqlQuery = "select dayofmonth(DATE) as day, month(date) as month, year(date) as year from restaurant_view\n" +
                 "where officiant_id = " + officaintId;
         ResultSet result = null;
