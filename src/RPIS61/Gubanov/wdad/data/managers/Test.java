@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Test {
-    public static void main(String[] args) throws TransformerException, IOException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) {
         try {
             JDBCDataManager dataManager = new JDBCDataManager();
             Officiant officiant = new Officiant("Alice", "Ro");
@@ -35,7 +35,7 @@ public class Test {
             System.out.println(orders.size());
             System.out.println(orders.get(0).getItems().get(1).getName());
             System.out.println(dataManager.lastOfficiantWorkDate(officiant).getTime());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

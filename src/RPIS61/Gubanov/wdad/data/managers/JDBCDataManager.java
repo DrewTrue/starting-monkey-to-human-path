@@ -11,33 +11,25 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class JDBCDataManager implements DataManager {
-    private Statement statement;
-    DataSource ds;
-    private static final String OFFICIANT_ID_QUERY = "select id from officiants where first_name = ? and second_name = ?";
 
-    private final static String DROP_VIEW_QUERY = "drop view restaurant_view";
-    private final static String CREATE_VIEW_QUERY = "create or replace view restaurant_view as select \n" +
-            "o.id, o.date, o.officiant_id, \n" +
-            "of.id as of_id, of.first_name, of.second_name,\n" +
-            "io.id as io_id, io.orders_id, io.items_dictionary_id, io.quantity,\n" +
-            "i.id as i_id, i.name, i.cost \n" +
-            "from orders o, officiants of, items i, items_orders io \n" +
-            "where o.officiant_id = of.id \n" +
-            "and o.id = io.orders_id\n" +
-            "and io.items_dictionary_id = i.id";
+    private static final String SELECT_OFFICIANT_ID_QUERY = "select id from officiants where first_name = ? and second_name = ?";
+    private static final String DELETE_DATE_QUERY = "delete from orders where date(date) = ?";
+    private static final String UPDATE_OFFICIANT_QUERY = "update officiants set first_name = ?, second_name = ? where first_name = ? and second_name = ?";;
+    private static final String SELECT_LATE_DATA_QUERY = "select max(date) as date from orders join officiants on(orders.officiant_id = officiants.id) where first_name = ? and second_name = ?";
+    private static final String SELECT_SUM_QUERY = "SELECT SUM( items.cost * items_orders.quantity ) AS totalcost FROM orders JOIN officiants ON ( orders.officiant_id = officiants.id ) JOIN items_orders ON ( orders.id = items_orders.orders_id ) JOIN items ON ( items.id = items_orders.items_dictionary_id ) WHERE DATE( orders.date ) =  ? AND (officiants.first_name = ? AND officiants.second_name = ?)";
+    private static final String SELECT_JOIN_ALL_QUERY = "SELECT orders.id, officiants.first_name, officiants.second_name, items_orders.quantity, items.name, items.cost FROM orders JOIN officiants ON ( officiants.id = orders.officiant_id ) JOIN items_orders ON ( orders.id = items_orders.orders_id ) JOIN items ON ( items.id = items_orders.items_dictionary_id ) WHERE DATE( orders.date ) = ?";
 
-    public JDBCDataManager() throws ParserConfigurationException, SAXException, IOException, SQLException {
+    DataSource dataSource;
+
+    public JDBCDataManager() throws ParserConfigurationException, SAXException, IOException {
         //todo one connection per method
-        DataSource dataSource = DataSourceFactory.createDataSource();
-        Connection connection = dataSource.getConnection();
-        this.statement = connection.createStatement();
-//        statement.execute(DROP_VIEW_QUERY);
-        statement.execute(CREATE_VIEW_QUERY);
+        this.dataSource = DataSourceFactory.createDataSource();
     }
 
     private String getMySQLDate(Calendar calendar){
@@ -58,25 +50,24 @@ public class JDBCDataManager implements DataManager {
 
     private String getOfficiantID(Officiant officiant){
         String id = null;
-
+//        statement.setDate();
         //todo other method same as here
-        Connection connection = ds.getConnection();
-        PreparedStatement statement = connection.prepareStatement(OFFICIANT_ID_QUERY);
-        statement.setString(1, officiant.getFirstName());
-        statement.setString(2, officiant.getSecondName());
-        statement.setDate();
-
+        PreparedStatement statement;
         ResultSet result = null;
         try {
-            result = statement.executeQuery(sqlQuery);
-        if(result != null){
-            while (result.next())
+            Connection connection = dataSource.getConnection();
+            statement = connection.prepareStatement(SELECT_OFFICIANT_ID_QUERY);
+            statement.setString(1, officiant.getFirstName());
+            statement.setString(2, officiant.getSecondName());
+            result = statement.executeQuery();
+            if(result.next()){
                 id = result.getString("id");
-        }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
+                assert result != null;
                 result.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -88,24 +79,21 @@ public class JDBCDataManager implements DataManager {
     @Override
     public int earningsTotal(Officiant officiant, Calendar calendar) throws RemoteException {
         int totalcost = 0;
-        String officaintId = getOfficiantID(officiant);
-        if(officaintId == null) {
-            System.out.println("there is no such officiant");
-            return totalcost;
-        }
-        String date = getMySQLDate(calendar);
-        ResultSet result = null;
         //todo use agregate functions
         //todo JOIN items ON (items.id = orders_items.item_id) JOIN officiants ON (officiants.id = oreders_items.officians.id)
-        String sqlQuery = "select SUMM(items.cost * quantity) from restaurant_view where date(date) = "
-                            + '"' + date + '"' + "and officiant_id = ";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet result = null;
         try {
-            result = statement.executeQuery(sqlQuery);
-            while (result.next()){
-                totalcost += result.getInt("quantity") * result.getInt("cost");
-            }
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(SELECT_SUM_QUERY);
+            statement.setDate(1, new Date(calendar.getTimeInMillis()));
+            statement.setString(2, officiant.getFirstName());
+            statement.setString(3, officiant.getSecondName());
+            result = statement.executeQuery();
+            if(result.next())
+                totalcost = result.getInt("totalcost");
         } catch (Exception e){
-            System.out.println("crashed");
             e.printStackTrace();
         } finally {
             try {
@@ -121,59 +109,56 @@ public class JDBCDataManager implements DataManager {
     @Override
     public void removeDay(Calendar calendar) throws RemoteException {
         //todo
-        Connection connection = ds.getConnection();
-        PreparedStatement statement = connection.prepareStatement("delete from orders where date(date) = ?");
-        statement.setDate(1, new java.sql.Date(calendar.getTimeInMillis()));
+        Connection connection;
+        PreparedStatement statement;
         try {
-            statement.execute(sqlQuery);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(DELETE_DATE_QUERY);
+            statement.setDate(1, new Date(calendar.getTimeInMillis()));
+            statement.execute();
         } catch (SQLException e) {
-            System.out.println("crashed");
             e.printStackTrace();
         }
     }
 
     @Override
     public void changeOfficiantName(Officiant oldOfficient, Officiant newOfficient) throws RemoteException {
-        String officiantID = getOfficiantID(oldOfficient);
-        if(officiantID == null){
-            System.out.println("there is no such officiant");
-            return;
-        }
-        String sqlQuery = "update officiants set" +
-                " first_name = " + '"' + newOfficient.getFirstName() + '"' + ',' +
-                " second_name = " + '"' + newOfficient.getSecondName() + '"' + " where" +
-                " first_name = " + '"' + oldOfficient.getFirstName() + '"' + " and" +
-                " second_name = " + '"' + oldOfficient.getSecondName() + '"';
-        try {
-            statement.execute(sqlQuery);
-            System.out.println("officiant name has changed from " +
-                    oldOfficient.getFirstName() + ' ' + oldOfficient.getSecondName() + " to " +
-                    newOfficient.getFirstName() + ' ' + newOfficient.getSecondName());
+        Connection connection;
+        PreparedStatement statement;
+        try{
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(UPDATE_OFFICIANT_QUERY);
+            statement.setString(1, newOfficient.getFirstName());
+            statement.setString(2, newOfficient.getSecondName());
+            statement.setString(3, oldOfficient.getFirstName());
+            statement.setString(4, oldOfficient.getSecondName());
+            statement.execute();
         } catch (SQLException e) {
-            System.out.println("crashed");
             e.printStackTrace();
         }
     }
 
     @Override
     public List<Order> getOrders(Calendar calendar) throws RemoteException {
-        String date = getMySQLDate(calendar);
         List<Order> orders = new ArrayList<>();
         List<Item> items = new ArrayList<>();
         Order order;
         Item item;
-        Officiant officiant = null;
-        String sqlQuery = "select * from restaurant_view where date(date) = " + '"' + date + '"';
-//        System.out.println(sqlQuery);
+        Officiant officiant;
+        int orderID;
         ResultSet result = null;
-        int orderID = 0;
+        Connection connection;
+        PreparedStatement statement;
         try {
-            result = statement.executeQuery(sqlQuery);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(SELECT_JOIN_ALL_QUERY);
+            statement.setDate(1, new Date(calendar.getTimeInMillis()));
+            result = statement.executeQuery();
             result.next();
             orderID = result.getInt("id");
             officiant = new Officiant(result.getString("first_name"), result.getString("second_name"));
 //            System.out.println("id = " + orderID);
-            result = statement.executeQuery(sqlQuery);
+            result = statement.executeQuery();
             while (result.next()){
                 if(orderID == result.getInt("id")) {
                     item = new Item(result.getString("name"), result.getInt("cost"));
@@ -215,22 +200,23 @@ public class JDBCDataManager implements DataManager {
 
     @Override
     public Calendar lastOfficiantWorkDate(Officiant officiant) throws RemoteException {
-        String officaintId = getOfficiantID(officiant);
-        if(officaintId == null) {
-            System.out.println("there is no such officiant");
-            return null;
-        }
         //todo use MAX(date)
-        String sqlQuery = "select dayofmonth(DATE) as day, month(date) as month, year(date) as year from restaurant_view\n" +
-                "where officiant_id = " + officaintId;
+        Connection connection;
+        PreparedStatement statement;
         ResultSet result = null;
         Calendar calendar = Calendar.getInstance();
+        Date date;
         try {
-            result = statement.executeQuery(sqlQuery);
-            result.last();
-            calendar.set(result.getInt("year"), result.getInt("month") - 1, result.getInt("day"));
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(SELECT_LATE_DATA_QUERY);
+            statement.setString(1, officiant.getFirstName());
+            statement.setString(2, officiant.getSecondName());
+            result = statement.executeQuery();
+            if(result.next()) {
+                date = result.getDate("date");
+                calendar.setTime(date);
+            }
         } catch (SQLException e) {
-            System.out.println("crashed");
             e.printStackTrace();
         }
         finally {
