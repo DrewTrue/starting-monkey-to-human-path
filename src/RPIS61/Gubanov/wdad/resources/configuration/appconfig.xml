@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?RPIS61.Gubanov.wdad.learn.xml version="1.0" encoding="UTF-8" standalone="no"?><appconfig>
+<!--<?xml version="1.0" encoding="UTF-8" standalone="no"?>-->
+<?RPIS61.Gubanov.wdad.learn.xml version="1.0" encoding="UTF-8" standalone="no"?>
+<appconfig>
     <rmi>
         <server>
             <registry>
@@ -18,4 +19,13 @@
         </client>
         <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>
     </rmi>
+    <datasource>
+        <classname>com.mysql.jdbc.Driver</classname>
+        <drivertype>mysql</drivertype>
+        <hostname>127.0.0.1</hostname>
+        <port>3306</port>
+        <dbname>restaurant</dbname>
+        <user>root</user>
+        <pass></pass>
+    </datasource>
 </appconfig>

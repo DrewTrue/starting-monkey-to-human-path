@@ -34,9 +34,14 @@ public class PreferencesManager {
         DocumentBuilder builder = factory.newDocumentBuilder();
         this.document = builder.parse(new File(path));
         this.properties = new Properties();
-        this.keys = new String[]{PreferencesManagerConstants.CREATE_REGISTRY, PreferencesManagerConstants.REGISTRY_ADDRESS,
+        this.keys = new String[]{
+                PreferencesManagerConstants.CREATE_REGISTRY, PreferencesManagerConstants.REGISTRY_ADDRESS,
                 PreferencesManagerConstants.REGISTRY_PORT, PreferencesManagerConstants.POLICY_PATH,
-                PreferencesManagerConstants.USE_CODEBASE_ONLY, PreferencesManagerConstants.CLASS_PROVIDER};
+                PreferencesManagerConstants.USE_CODEBASE_ONLY, PreferencesManagerConstants.CLASS_PROVIDER,
+                PreferencesManagerConstants.CLASS_NAME, PreferencesManagerConstants.DRIVER_TYPE,
+                PreferencesManagerConstants.HOST_NAME, PreferencesManagerConstants.PORT,
+                PreferencesManagerConstants.DB_NAME, PreferencesManagerConstants.USER,
+                PreferencesManagerConstants.PASSWORD };
         propertySetting();
     }
 
